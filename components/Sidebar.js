@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { Avatar, Button, IconButton } from '@material-ui/core';
 import { auth, db } from '../firebase';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -6,6 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import * as EmailValidator from 'email-validator';
 import Chat from '../components/Chat';
+import DehazeOutlinedIcon from '@material-ui/icons/DehazeOutlined';
 
 const SidebarContainer = styled.div`
     border-right: 1px solid whitesmoke;
@@ -13,11 +15,11 @@ const SidebarContainer = styled.div`
     /* min-width: 300px;
     max-width: 350px; */
     max-width: 350px;
-    overflow-y: scroll;
     transition: all .2s ease;
     z-index: 1000;
     background-color: white;
     font-family: 'Poppins';
+    position: relative;
 
     ::-webkit-scrollbar {
         display: none;
@@ -27,8 +29,28 @@ const SidebarContainer = styled.div`
     scrollbar-width: none;
 
     @media screen and (max-width: 1050px) {
-        transform: translateX(${({ isToggle }) => (isToggle ? '100%' : '-100%')});
-        margin-right: ${({ isToggle }) => (isToggle ? '0px' : '-332px')};
+        transform: translateX(${({ sidebar }) => (sidebar ? '0%' : '-100%')});
+        margin-right: ${({ sidebar }) => (sidebar ? '0px' : '-332px')};
+    }
+`
+
+const Arrows = styled.div`
+    display: none;
+
+    @media screen and (max-width: 1050px) {
+        display: flex;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        left: 341px;
+        z-index: 2000;
+        font-size: 20px;
+        cursor: pointer;
+        color: #111;
+        opacity: 0.5;
+
+        &:hover {
+        }
     }
 `
 
@@ -63,10 +85,17 @@ const SidebarButton = styled(Button)`
         border-top: 1px solid whitesmoke;
         border-bottom: 1px solid whitesmoke;
         padding: 15px;
+        transition: all .2s ease;
     }
 `
 
-function Sidebar({ isToggle, handleToggle }) {
+function Sidebar() {
+
+    const [sidebar, setSidebar] = useState(false);
+
+    const showSide = () => {
+        setSidebar(!sidebar);
+    }
 
     const [user] = useAuthState(auth);
     const userChatRef = db.collection('chats').where('users', 'array-contains', user.email);
@@ -92,7 +121,7 @@ function Sidebar({ isToggle, handleToggle }) {
     }
 
     return (
-        <SidebarContainer isToggle={isToggle}>
+        <SidebarContainer sidebar={sidebar}>
             <Header>
                 <UserAvatar src={user.photoURL} />
                 <IconsContainer>
@@ -107,6 +136,9 @@ function Sidebar({ isToggle, handleToggle }) {
             {chatsSnapshot?.docs.map(chat => (
                 <Chat key={chat.id} id={chat.id} users={chat.data().users} />
             ))}
+                <Arrows>
+                    <DehazeOutlinedIcon  onClick={showSide}/>  
+                </Arrows>
         </SidebarContainer>
     )
 }

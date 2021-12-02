@@ -20,8 +20,7 @@ const LoginCard = styled.div`
     align-items: center;
     background-color: #fff;
     padding: 50px;
-    border-radius: 20px;
-    box-shadow: 0px 4px 14px -3px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 4px 14px -4px #707070;
 `
 
 const Button = styled.button`
@@ -44,7 +43,8 @@ const Button = styled.button`
 
 const IconContainer = styled.div`
     width: fit-content;
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 38%, rgba(0,212,255,1) 100%);
+    /* background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 38%, rgba(0,212,255,1) 100%); */
+    background: linear-gradient(90deg, #4385f3 0%, #434ff3 100%);
     border-radius: 20px;
     padding: 20px 10px;
     margin-bottom: 30px;

@@ -5,10 +5,7 @@ import { useRouter } from 'next/router';
 import { Avatar, IconButton } from '@material-ui/core';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import Message from './Message';
-// import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
-// import MicIcon from '@material-ui/icons/Mic';
-import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
-import DehazeOutlinedIcon from '@material-ui/icons/DehazeOutlined';
+import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import firebase from 'firebase';
 import { useState, useRef } from 'react';
 import getRecipientEmail from '../utils/getRecipientEmail';
@@ -23,10 +20,14 @@ const Header = styled.div`
     top: 0;
     display: flex;
     padding: 12px 20px;
+    padding-left: 50px;
     height: 80px;
     align-items: center;
     border-bottom: 1px solid whitesmoke;
     font-family: 'Poppins';
+
+    @media screen and (max-width: 1050px) {
+    }
     
     @media screen and (max-width: 450px) {
         font-size: 12px;
@@ -53,7 +54,7 @@ const EndMessage = styled.div`
 `
 
 const MessageContainer = styled.div`
-    padding: 10px 5px;
+    padding: 10px 15px;
     padding-top: 20px;
     background-color: #e5ded8;
     min-height: 90vh;
@@ -93,22 +94,16 @@ const IconHover = styled.div`
     }
 `
 
-const Toggle = styled.div`
-    display: none;
+// const Toggle = styled.div`
+//     display: none;
 
-    @media screen and (max-width: 1050px) {
-        display: flex;
-        cursor: pointer;
-    }
-`
+//     @media screen and (max-width: 1050px) {
+//         display: flex;
+//         cursor: pointer;
+//     }
+// `
 
 function ChatScreen({ chat, messages }) {
-
-    const [isToggle, setToggle] = useState(false);
-
-    const handleToggle = () => {
-        setToggle(!isToggle);
-    }
 
     const [user] = useAuthState(auth);
     const [input, setInput] = useState(''); 
@@ -192,9 +187,9 @@ function ChatScreen({ chat, messages }) {
                         <p>Loading last active time</p>
                     )}
                 </HeaderInformation>
-            <Toggle onClick={handleToggle}>
-                <DehazeOutlinedIcon style={{color: '#707070'}}/>
-            </Toggle>
+            {/* <Toggle>
+                <DehazeOutlinedIcon onClick={showSide} style={{color: '#707070'}}/>
+            </Toggle> */}
             </Header>
 
             <MessageContainer>
@@ -203,13 +198,11 @@ function ChatScreen({ chat, messages }) {
             </MessageContainer>
 
             <InputContainer>
-                {/* <InsertEmoticonIcon /> */}
                 <Input placeholder='Type a message' value={input} onChange={e => setInput(e.target.value)}/>
                 <button disabled={!input} hidden type='submit' onClick={sendMessage}>Send Message</button>
                 <IconHover> 
-                    <SendOutlinedIcon style={{fontSize: 20, marginLeft: 10, marginRight: 5, marginTop: 2, cursor: 'pointer', color: '#707070'}} type='submit' onClick={sendMessage}></SendOutlinedIcon>
+                    <SendRoundedIcon style={{fontSize: 20, marginLeft: 10, marginRight: 5, marginTop: 2, cursor: 'pointer', color: '#707070'}} type='submit' onClick={sendMessage}></SendRoundedIcon>
                 </IconHover>  
-                {/* <MicIcon /> */}
             </InputContainer>
         </ChatScreenContainer>
     )
