@@ -25,3 +25,4 @@ Featured ideas to implement:
 
 - Dark mode featured 
 - Add emojis, voice commands, etc.
+- Add file attachments
